@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - 12
+jobs:
+  include:
+    - stage: release
+      node_js: lts/*
+      script: npm run build
+      deploy:
+        provider: script
+        script: npm run release
+        skip_cleanup: true # 若需要在 travis 上執行 build 後才發到 npm 上則要保留這行
