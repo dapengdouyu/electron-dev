@@ -1,13 +1,13 @@
+language: node_js
+node_js:
+  - 12
 matrix:
   include:
     - os: osx
       osx_image: xcode10.2
-      language: node_js
-      node_js: "10"
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-
     - os: linux
       services: docker
       language: generic
@@ -20,6 +20,7 @@ cache:
 
 script:
   - yarn build
+  - yarn release
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       docker run --rm \
@@ -36,11 +37,8 @@ before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
 deploy:
   provider: releases
-  file: *.exe
+  file: "*.exe"
   file_glob: true
-  skip_cleanup: true 
+  skip_cleanup: true
   on:
     tags: true
-branches:
-  except:
-    - "/^v\\d+\\.\\d+\\.\\d+$/"
