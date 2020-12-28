@@ -5,7 +5,7 @@ jobs:
   include:
     - stage: release
       node_js: lts/*
-      script: npm run build
+      script: npm run release
       deploy:
         provider: script
         script: npm run release
